@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>界隈天気予報 | Community Weather Station</title>
+  <meta name="description" content="キーワードのネット上の空気感を天気として可視化する界隈天気予報アプリ" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=Outfit:wght@300;400;600;700;800&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="./style.css" />
+</head>
+
+<body>
+  <!-- Weather Canvas Background -->
+  <canvas id="weatherCanvas"></canvas>
+
+  <!-- Main App -->
+  <div id="app">
+    <!-- Header -->
+    <header id="header">
+      <div class="header-content">
+        <h1 class="app-title">
+          <span class="title-icon">⛅</span>
+          界隈天気予報
+        </h1>
+        <p class="app-subtitle">Community Weather Station</p>
+      </div>
+    </header>
+
+    <!-- Search Section -->
+    <section id="searchSection" class="search-section">
+      <div class="search-container glass-card">
+        <p class="search-label">キーワードを入力して、ネットの空気感をチェック！</p>
+        <form id="searchForm" class="search-form">
+          <div class="search-input-wrapper">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="keywordInput" class="search-input"
+              placeholder="例: Nintendo Switch 2, ChatGPT, 大谷翔平 ..." autocomplete="off" required />
+          </div>
+          <button type="submit" id="searchBtn" class="search-btn">
+            <span class="btn-text">天気を調べる</span>
+            <span class="btn-icon">→</span>
+          </button>
+        </form>
+      </div>
+    </section>
+
+    <!-- Loading -->
+    <section id="loadingSection" class="loading-section hidden">
+      <div class="loading-container">
+        <div class="loading-spinner"></div>
+        <p class="loading-text">界隈の空気を観測中...</p>
+        <p class="loading-subtext" id="loadingSubtext">検索データを収集しています</p>
+      </div>
+    </section>
+
+    <!-- Result Section -->
+    <section id="resultSection" class="result-section hidden">
+      <!-- Weather Status Card -->
+      <div class="weather-status glass-card" id="weatherStatusCard">
+        <div class="weather-main">
+          <span class="weather-emoji" id="weatherEmoji">☀️</span>
+          <div class="weather-info">
+            <h2 class="weather-label" id="weatherLabel">快晴</h2>
+            <p class="weather-keyword" id="weatherKeyword"></p>
+            <div class="analysis-sources" id="analysisSources"></div>
+          </div>
+        </div>
+        <!-- Sentiment Bar -->
+        <div class="sentiment-bar-container">
+          <div class="sentiment-bar">
+            <div class="sentiment-positive" id="sentimentPositive" style="width: 0%"></div>
+            <div class="sentiment-neutral" id="sentimentNeutral" style="width: 0%"></div>
+            <div class="sentiment-negative" id="sentimentNegative" style="width: 0%"></div>
+          </div>
+          <div class="sentiment-labels">
+            <span class="sentiment-label positive">😊 ポジティブ <strong id="positiveValue">0</strong>%</span>
+            <span class="sentiment-label neutral">😐 中立 <strong id="neutralValue">0</strong>%</span>
+            <span class="sentiment-label negative">😠 ネガティブ <strong id="negativeValue">0</strong>%</span>
+          </div>
+        </div>
+        <!-- Root Cause -->
+        <div class="root-cause" id="rootCause">
+          <span class="root-cause-icon">📋</span>
+          <p class="root-cause-text" id="rootCauseText"></p>
+        </div>
+
+        <!-- Highlighted Event -->
+        <div class="highlighted-event glass-card" id="highlightedEvent">
+          <div class="highlight-header">
+            <span class="highlight-icon">🔥</span>
+            <h3 class="highlight-title">ピックアップ事象</h3>
+          </div>
+          <p class="highlight-text" id="highlightedEventText"></p>
+        </div>
+      </div>
+
+      <!-- Sources -->
+      <div class="sources-card glass-card" id="sourcesCard">
+        <h3 class="sources-title">📡 情報ソース</h3>
+        <ul class="sources-list" id="sourcesList"></ul>
+      </div>
+    </section>
+
+    <!-- Forecaster Message Box -->
+    <div id="forecasterBox" class="forecaster-box hidden">
+      <div class="forecaster-inner">
+        <div class="forecaster-avatar">
+          <span class="avatar-emoji">🧑‍💼</span>
+        </div>
+        <div class="forecaster-content">
+          <p class="forecaster-name">AI天気予報士</p>
+          <p class="forecaster-message" id="forecasterMessage"></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Search Again Button -->
+    <div id="searchAgainContainer" class="search-again-container hidden">
+      <button id="searchAgainBtn" class="search-again-btn">
+        🔄 別のキーワードで調べる
+      </button>
+    </div>
+  </div>
+
+  <script type="module" src="./main.js"></script>
+</body>
+
+</html>
